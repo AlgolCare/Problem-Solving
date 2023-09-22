@@ -1,29 +1,73 @@
 n, m = map(int, input().split())
 cheese = [list(map(int, input().split())) for i in range(n)]
-visit = [list(0 for i in range(m)) for i in range(n)]
-melt = [(0,0)]
+melt = [list(0 for i in range(m)) for i in range(n)]
 dx = [1, -1, 0, 0]
 dy = [0, 0, 1, -1]
+day = 0
 
-def bfs(melt, time):
-    count = len(melt)
-    find = []
-    while melt:
-        x, y = melt.pop(0)
+def isFinish():
+    for i in cheese:
+        if i.count(1) != 0:
+            return 1
+    return 0
+
+def check(a, b):
+    for i in range(4):
+        nx = a + dx[i]
+        ny = b + dy[i]
+        if (nx >= 0 and nx < n) and (ny >= 0 and ny < m):
+            if cheese[nx][ny] < 0:
+                return 1
+    return 0
+
+def bfs(a, b):
+    global day
+    queue = [[a, b]]
+    visit[a][b] = 1
+    find.append([a,b])
+    while(queue):
+        x = queue[0][0]
+        y = queue[0][1]
+        queue.pop(0)
         for i in range(4):
-            nx, ny = x + dx[i], y + dy[i]
+            nx = x + dx[i]
+            ny = y + dy[i]
             if (nx >= 0 and nx < n) and (ny >= 0 and ny < m):
-                if visit[nx][ny] == 0:
+                if cheese[nx][ny] == 1 and visit[nx][ny] == 0:
+                    if check(nx, ny):
+                        find.append([nx,ny])
                     visit[nx][ny] = 1
-                    if cheese[nx][ny] == 0: #공기일 경우
-                        melt.append((nx, ny))   #현재 큐에 추가해서 bfs
-                    elif cheese[nx][ny] == 1:   #공기와 인접한 치즈일 경우
-                        find.append((nx, ny))   #다음 함수에서 사용하기 위해 다음 큐(find)에 추가 @@현재 큐에 넣으면 공기에 안 닿는 치즈도 탐색할 수 있으므로
-    if find:
-        return bfs(find, time + 1)  #공기에 닫는 치즈로 bfs
-    else:
-        return time, count
-visit[0][0] = 1
-time, count = bfs(melt, 0)
-print(time)
+                    queue.append([nx,ny])
+
+def findAir():
+    global day
+    queue = [[0, 0]]
+    while(queue):
+        x = queue[0][0]
+        y = queue[0][1]
+        queue.pop(0)
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if (nx >= 0 and nx < n) and (ny >= 0 and ny < m):
+                if cheese[nx][ny] <= 0 and cheese[nx][ny] != -day:
+                    cheese[nx][ny] = -day
+                    queue.append([nx,ny])
+
+while(isFinish()):
+    visit = [list(0 for i in range(m)) for i in range(n)]
+    find = []
+    day += 1
+    findAir()
+    for i in range(n):
+        for j in range(m):
+            if cheese[i][j] == 1 and visit[i][j] == 0:
+                bfs(i, j)
+    for i in find:
+        melt[i[0]][i[1]] = day
+        cheese[i[0]][i[1]] = 0
+print(day)
+count = 0
+for i in melt:
+    count += i.count(day)
 print(count)
