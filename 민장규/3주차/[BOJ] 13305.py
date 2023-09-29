@@ -4,7 +4,7 @@ oil = list(map(int, input().split()))
 
 def cost(index) :
     cnt = oil[index]
-    while index <= len(oil)-2 and oil[index] >= cnt :
+    while index < len(oil)-1 and oil[index] >= cnt :
         index += 1
     return index
 
