@@ -1,3 +1,5 @@
+import sys
+sys.setrecursionlimit(10**6)
 from collections import deque
 
 R, C = map(int, input().split())
@@ -5,8 +7,8 @@ graph = []
 for _ in range(R):
     graph.append(list(map(int,input())))
     
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
+dx = [1, -1, 0, 0]
+dy = [0, 0, 1, -1]
 time = 0
 ans = []
     
@@ -36,3 +38,6 @@ while 1:
     cnt = bfs()
     if cnt == 0 :
         break
+
+print(time-1)
+print(ans[-2])
