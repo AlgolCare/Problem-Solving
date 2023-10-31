@@ -8,7 +8,8 @@ def solution(n, times):
         count = 0
         mid = ( min + max )//2
         for i in times:
-            count +=( mid//i )
+            count += ( mid//i )
+            print(i , count)
         if( count >= n ):
             max = mid
         elif( count < n ):
