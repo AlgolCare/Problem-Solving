@@ -9,7 +9,6 @@ def solution(n, times):
         mid = ( min + max )//2
         for i in times:
             count += ( mid//i )
-            print(i , count)
         if( count >= n ):
             max = mid
         elif( count < n ):
@@ -21,4 +20,3 @@ def solution(n, times):
     return answer
 
 solution(6, [7, 10])
-print(solution(6, [7, 10]))
