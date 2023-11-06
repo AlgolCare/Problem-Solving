@@ -15,4 +15,5 @@ for i in range(1, D):
                 dp[i][j] = max(dp[i][j], dp[i-1][k] + abs(clothes[j][2] - clothes[k][2]))
 
 result = max(dp[D-1])
+
 print(result)
