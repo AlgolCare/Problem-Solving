@@ -7,7 +7,6 @@ for _ in range(N):
     clothes.append((a, b, c))
 
 dp = [[0] * N for _ in range(D)]
-
 for i in range(1, D):
     for j in range(N):
         for k in range(N):
