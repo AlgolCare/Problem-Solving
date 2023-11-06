@@ -1,7 +1,6 @@
 D, K = map(int, input().split())
 
 for i in range(1, 100000):
-
     for j in range(1, 100000):
         dp = [0] * (D + 1)
         dp[0] = i
